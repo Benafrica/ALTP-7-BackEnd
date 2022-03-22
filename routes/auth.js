@@ -1,7 +1,7 @@
-// const express = require("express");
+
 import express from "express";
 const authRouter = express.Router();
-// const authController = require("../Controllers/authController");
+
 import authController from "../Controllers/authController";
 const {verifyAccessToken} = require("../helpers/jwt_helper");
 

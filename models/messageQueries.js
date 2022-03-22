@@ -1,4 +1,4 @@
-// const mongoose = require('mongoose')
+
 import mongoose from "mongoose";
 
 const messageQueriesSchema = new mongoose.Schema({
@@ -25,4 +25,4 @@ const messageQueriesSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("messageQuerries", messageQueriesSchema);
+export default mongoose.model("messageQuerries", messageQueriesSchema);

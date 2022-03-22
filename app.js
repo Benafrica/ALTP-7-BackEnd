@@ -1,32 +1,28 @@
-// require('dotenv').config({ path: 'ENV_FILENAME' });
-
 import dotenv from "dotenv";
-dotenv.config({path:'.env.development'});
+dotenv.config({path: ".env.development"});
 
 // Importing Libaries
 
-// const mongoose = require("mongoose");
 import mongoose from "mongoose";
-// const express = require("express");
+
 import express from "express";
-// const morgan = require("morgan");
+
 import morgan from "morgan";
-// const createError = require("http-errors");
+
 import createError from "http-errors";
-// const swaggerUI = require("swagger-ui-express");
+
 import swaggerUI from "swagger-ui-express";
-// const swaggerJsDoc = require("swagger-jsdoc");
+
 import swaggerJsDoc from "swagger-jsdoc";
-// const cookieParser = require("cookie-parser");
+
 import cookieParser from "cookie-parser";
-// const cors = require("cors");
+
+
 import cors from "cors";
 
 // Importing Routes In The Server
 
-const authRouter = require("./routes/auth"); // Login Route
-const adminRoute = require("./routes/admin"); // Messages & Blog Admin Route
-
+import indexRoute from "./routes/index.js";
 // API Swager Documentation
 
 const options = {
@@ -40,7 +36,7 @@ const options = {
     },
     servers: [
       {url: `http://localhost:${process.env.PORT}`},
-      {url: "benafrica-api.herokuapp.com"},
+      {url: "https://benafrica-api.herokuapp.com"},
     ],
   },
   apis: ["./routes/*.js"],
@@ -91,10 +87,7 @@ connectDB();
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(apiSpecs));
 
 // Using Routes
-app.get("/", (req, res) => {
-  res.send({Message: "Welcome To My API"});
-});
-app.use("/auth", authRouter); // Login Route
-app.use("/admin", adminRoute); // Blog & Messages Admin Route
+app.use("/", indexRoute);
 
-module.exports = app;
+
+export default app;

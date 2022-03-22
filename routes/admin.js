@@ -1,9 +1,9 @@
-// const express = require("express");
+
 import express from "express";
 const adminRoute = express.Router();
-// const {verifyAccessToken} = require("../helpers/jwt_helper");
+
 import {verifyAccessToken} from '../helpers/jwt_helper';
-// const adminController = require("../Controllers/adminController");
+
 import adminController from "../Controllers/adminController";
 
 // Blog CRUD Operations Route
