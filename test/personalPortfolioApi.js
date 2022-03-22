@@ -1,21 +1,20 @@
 // const request = require("supertest");
 import request from "supertest";
-// const chai = require("chai");
+
 import chai from "chai";
 const expect = chai.expect;
 const should = chai.should();
-// const chaiHttp = require("chai-http");
+
 import chaiHttp from "chai-http";
-// const server = require("../app");
+
 import server from "../app";
 chai.use(chaiHttp);
 const agent = request.agent(server);
 
-// const dbUsers = require("../models/dbUsers");
 import dbUsers from "../models/dbUsers";
-// const blogArticles = require("../models/blogArticles");
+
 import blogArticles from "../models/blogArticles";
-// const messageQuerries = require("../models/messageQueries");
+
 import messageQueries from "../models/messageQueries";
 
 /**

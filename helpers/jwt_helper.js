@@ -1,6 +1,6 @@
-// const JWT = require("jsonwebtoken");
+
 import JWT from "jsonwebtoken";
-// const createError = require("http-errors");
+
 import createError from 'http-errors';
 
 module.exports = {
