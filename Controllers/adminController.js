@@ -32,7 +32,7 @@ async function getMessage(req, res, next) {
     next()
   }
 
-module.exports = {
+export default {
     allArticles: async (req, res) => {
         try {
           const articles = await blogArticles.find()

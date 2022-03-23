@@ -3,13 +3,10 @@ import express from "express";
 const authRouter = express.Router();
 
 import authController from "../Controllers/authController";
-const {verifyAccessToken} = require("../helpers/jwt_helper");
+import {verifyAccessToken} from "../helpers/jwt_helper";
 
 // Creating Login Route
 
-authRouter.get("/", (req, res) => {
-  res.render("login");
-});
 
 /**
  * @swagger
@@ -120,9 +117,10 @@ authRouter.post("/login", authController.login);
  *       500:
  *         description: Server Error
  */
+
 // Logout Route
 authRouter.delete("/logout", verifyAccessToken, authController.logout);
 
 // Exporting login.js Route
 
-module.exports = authRouter;
+export default authRouter;

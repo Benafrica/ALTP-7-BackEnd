@@ -12,4 +12,5 @@ const loginSchema = joi.object({
   email: joi.string().email().lowercase().required(),
   password: joi.string().min(5).max(30).required(),
 });
-export default {authSchema, loginSchema};
+
+module.exports = {authSchema, loginSchema};

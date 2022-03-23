@@ -17,7 +17,6 @@ import swaggerJsDoc from "swagger-jsdoc";
 
 import cookieParser from "cookie-parser";
 
-
 import cors from "cors";
 
 // Importing Routes In The Server
@@ -71,7 +70,7 @@ const connectDB = async () => {
 
     // Connecting & Listening to The Database
 
-    app.listen(process.env.PORT || 8000, () => {
+    app.listen(process.env.PORT, () => {
       console.log("Personal Portfolio App Has Started");
       app.emit("appStarted");
     });
@@ -88,6 +87,5 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(apiSpecs));
 
 // Using Routes
 app.use("/", indexRoute);
-
 
 export default app;
