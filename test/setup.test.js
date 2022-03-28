@@ -1,11 +1,11 @@
 process.env.NODE_ENV = "test";
 
 
-import dbUser from "../models/dbUsers";
+import dbUser from "../src/models/dbUsers";
 
-import blogArticles from "../models/blogArticles";
+import blogArticles from "../src/models/blogArticles";
 
-import messageQuerries from "../models/messageQueries";
+import messageQuerries from "../src/models/messageQueries";
 
 
 before((done) => {

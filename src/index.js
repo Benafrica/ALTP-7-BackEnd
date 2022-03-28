@@ -1,34 +1,24 @@
 import dotenv from "dotenv";
 dotenv.config({path: ".env.development"});
-
-// Importing Libaries
-
 import mongoose from "mongoose";
-
 import express from "express";
-
 import morgan from "morgan";
-
-import createError from "http-errors";
-
+import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
-
-import swaggerJsDoc from "swagger-jsdoc";
-
 import cookieParser from "cookie-parser";
-
 import cors from "cors";
 
 // Importing Routes In The Server
 
 import indexRoute from "./routes/index.js";
+
 // API Swager Documentation
 
 const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Personal Portfolio API",
+      title: "Personal API",
       version: "1.0.0",
       description:
         "This API Will Manage:\n 1. CRUD Operations For The Blog & Message Querries.\n 2. User Roles, User Authentication & Authorisation",
@@ -38,19 +28,12 @@ const options = {
       {url: "https://benafrica-api.herokuapp.com"},
     ],
   },
-  apis: ["./routes/*.js"],
+  apis: [`${__dirname}/routes/**/*.js`],
 };
-
-const apiSpecs = swaggerJsDoc(options);
+const apiSpecs = swaggerJSDoc(options);
 
 const app = express();
-app.options("*", cors());
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-  })
-);
+app.use(cors());
 app.use(morgan("dev"));
 app.use(
   express.json()
@@ -83,9 +66,9 @@ const connectDB = async () => {
 connectDB();
 
 // Using Swagger API Documentation
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(apiSpecs));
 
 // Using Routes
 app.use("/", indexRoute);
+app.use("api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(apiSpecs));
 
 export default app;

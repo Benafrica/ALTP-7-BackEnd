@@ -7,15 +7,15 @@ const should = chai.should();
 
 import chaiHttp from "chai-http";
 
-import server from "../app";
+import server from "../src/index.js";
 chai.use(chaiHttp);
 const agent = request.agent(server);
 
-import dbUsers from "../models/dbUsers";
+import dbUsers from "../src/models/dbUsers";
 
-import blogArticles from "../models/blogArticles";
+import blogArticles from "../src/models/blogArticles";
 
-import messageQueries from "../models/messageQueries";
+import messageQueries from "../src/models/messageQueries";
 
 /**
  * Connecting To The Server Before Testing
@@ -97,11 +97,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Create A Message & Save In DataBase
    */
-  describe("POST /admin/messages", () => {
+  describe("POST /api/v1/admin/messages", () => {
     it("It Should Create A New Message Querry", (done) => {
       chai
         .request(server)
-        .post("/admin/messages")
+        .post("/api/v1/admin/messages")
         .send(testMessage)
         .end((err, res) => {
           res.should.have.status(201);
@@ -120,7 +120,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Generate A 400 Error Code When User Tries To Create A New Message Querry With Incomplete Info ", (done) => {
       chai
         .request(server)
-        .post("/admin/messages")
+        .post("/api/v1/admin/messages")
         .send(wrongTestMessage)
         .end((err, res) => {
           res.should.have.status(400);
@@ -134,11 +134,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Register A User & Save In The DataBase
    */
-  describe("POST /auth/register", () => {
+  describe("POST /api/v1/auth/register", () => {
     it("It Should Register A New User In The Database", (done) => {
       chai
         .request(server)
-        .post("/auth/register")
+        .post("/api/v1/auth/register")
         .send(testUserReg)
         .end((err, res) => {
           res.should.have.status(201);
@@ -158,7 +158,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Reject User Registration With Invalid Credentials", (done) => {
       chai
         .request(server)
-        .post("/auth/register")
+        .post("/api/v1/auth/register")
         .send(invalidTestUserReg)
         .end((err, res) => {
           res.should.have.status(422);
@@ -171,7 +171,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Reject User Registration With Existing Credentials In Database", (done) => {
       chai
         .request(server)
-        .post("/auth/register")
+        .post("/api/v1/auth/register")
         .send(testUserReg)
         .end((err, res) => {
           res.should.have.status(409);
@@ -182,11 +182,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Login An Existing User
    */
-  describe("POST /auth/login", () => {
+  describe("POST /api/v1/auth/login", () => {
     it("It Should Login An Existing User", (done) => {
       chai
         .request(server)
-        .post("/auth/login")
+        .post("/api/v1/auth/login")
         .send(testUserLogin)
         .end(async (err, res) => {
           res.should.have.status(200);
@@ -202,7 +202,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Reject User login With Invalid Credentials", (done) => {
       chai
         .request(server)
-        .post("/auth/login")
+        .post("/api/v1/auth/login")
         .send(invalidTestUserLogin)
         .end((err, res) => {
           res.should.have.status(400);
@@ -215,7 +215,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Reject User Login Without Existing Credentials In Database", (done) => {
       chai
         .request(server)
-        .post("/auth/login")
+        .post("/api/v1/auth/login")
         .send(wrongTestUserLogin)
         .end((err, res) => {
           res.should.have.status(404);
@@ -226,11 +226,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Get All Messages
    */
-  describe("GET /admin/messages", () => {
+  describe("GET /api/v1/admin/messages", () => {
     it("It Should Return An Array Of All Message Querries", (done) => {
       chai
         .request(server)
-        .get("/admin/messages")
+        .get("/api/v1/admin/messages")
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(200);
@@ -241,11 +241,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Get Message By Id
    */
-  describe("GET /admin/messages/", () => {
+  describe("GET /api/v1/admin/messages/", () => {
     it("It Should Return A Message Querry By Id", (done) => {
       chai
         .request(server)
-        .get(`/admin/messages/${messageId}`)
+        .get(`/api/v1/admin/messages/${messageId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(200);
@@ -262,7 +262,7 @@ describe("Personal Portfolio API Test", () => {
       const wrongMessageId = messageId + "51";
       chai
         .request(server)
-        .get(`/admin/messages/${wrongMessageId}`)
+        .get(`/api/v1/admin/messages/${wrongMessageId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(500);
@@ -276,11 +276,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Delete Message By Id
    */
-  describe("DELETE /admin/messages/id", () => {
+  describe("DELETE /api/v1/admin/messages/id", () => {
     it("It Should Delete A Message Querry By Id", (done) => {
       chai
         .request(server)
-        .delete(`/admin/messages/${messageId}`)
+        .delete(`/api/v1/admin/messages/${messageId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(200);
@@ -298,7 +298,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Generate A 404 Error Code When User Tries To Get A Message With Deleted Id", (done) => {
       chai
         .request(server)
-        .get(`/admin/messages/${messageId}`)
+        .get(`/api/v1/admin/messages/${messageId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(404);
@@ -315,7 +315,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Generate A 401 Error Code When User Tries To Delete A Message Without Proper Authorization", (done) => {
       chai
         .request(server)
-        .delete(`/admin/messages/${messageId}`)
+        .delete(`/api/v1/admin/messages/${messageId}`)
         .end((err, res) => {
           res.should.have.status(401);
           done();
@@ -329,7 +329,7 @@ describe("Personal Portfolio API Test", () => {
       const wrongMessageId = messageId + "51";
       chai
         .request(server)
-        .delete(`/admin/messages/${wrongMessageId}`)
+        .delete(`/api/v1/admin/messages/${wrongMessageId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(500);
@@ -343,11 +343,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Create An Article
    */
-  describe("POST /admin/blog_articles", () => {
+  describe("POST /api/v1/admin/blog_articles", () => {
     it("It Should Create A New Blog Article", (done) => {
       chai
         .request(server)
-        .post("/admin/blog_articles")
+        .post("/api/v1/admin/blog_articles")
         .set({Authorization: `Bearer ${accessToken}`})
         .send(testBlog)
         .end((err, res) => {
@@ -366,7 +366,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Generate A 400 Error Code When User Tries To Create A New Article With Incomplete Info ", (done) => {
       chai
         .request(server)
-        .post("/admin/blog_articles")
+        .post("/api/v1/admin/blog_articles")
         .set({Authorization: `Bearer ${accessToken}`})
         .send(wrongTestBlog)
         .end((err, res) => {
@@ -381,11 +381,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Get All Articles
    */
-  describe("GET /admin/blog_articles", () => {
+  describe("GET /api/v1/admin/blog_articles", () => {
     it("It Should Return An Array Of All Blog Articles", (done) => {
       chai
         .request(server)
-        .get("/admin/blog_articles")
+        .get("/api/v1/admin/blog_articles")
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(200);
@@ -396,11 +396,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Get An Article By Id
    */
-  describe("GET /admin/blog_articles/id", () => {
+  describe("GET /api/v1/admin/blog_articles/id", () => {
     it("It Should Return A Blog Article By Id", (done) => {
       chai
         .request(server)
-        .get(`/admin/blog_articles/${articleId}`)
+        .get(`/api/v1/admin/blog_articles/${articleId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(200);
@@ -412,11 +412,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Update An Article By Id
    */
-  describe("PATCH /admin/blog_articles/id", () => {
+  describe("PATCH /api/v1/admin/blog_articles/id", () => {
     it("It Should Update A Blog Article By Id", (done) => {
       chai
         .request(server)
-        .patch(`/admin/blog_articles/${articleId}`)
+        .patch(`/api/v1/admin/blog_articles/${articleId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .send(testBlogUpdate)
         .end((err, res) => {
@@ -432,7 +432,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Generate A 400 Error Code When User Tries To Update An Article With Incomplete Info ", (done) => {
       chai
         .request(server)
-        .patch(`/admin/blog_articles/${articleId}`)
+        .patch(`/api/v1/admin/blog_articles/${articleId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .send(wrongTestBlogUpdate)
         .end((err, res) => {
@@ -447,11 +447,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Delete An Article By Id
    */
-  describe("DELETE /admin/blog_articles/id", () => {
+  describe("DELETE /api/v1/admin/blog_articles/id", () => {
     it("It Should Delete A Blog Article By Id", (done) => {
       chai
         .request(server)
-        .delete(`/admin/blog_articles/${articleId}`)
+        .delete(`/api/v1/admin/blog_articles/${articleId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(200);
@@ -469,7 +469,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Generate A 404 Error Code When User Tries To Get An Article With Deleted Id", (done) => {
       chai
         .request(server)
-        .get(`/admin/blog_articles/${articleId}`)
+        .get(`/api/v1/admin/blog_articles/${articleId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(404);
@@ -486,7 +486,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Generate A 401 Error Code When User Tries To Delete An Article Without Proper Authorization", (done) => {
       chai
         .request(server)
-        .delete(`/admin/blog_articles/${articleId}`)
+        .delete(`/api/v1/admin/blog_articles/${articleId}`)
         .end((err, res) => {
           res.should.have.status(401);
           done();
@@ -500,7 +500,7 @@ describe("Personal Portfolio API Test", () => {
       const wrongArticleId = articleId + "51";
       chai
         .request(server)
-        .delete(`/admin/blog_articles/${wrongArticleId}`)
+        .delete(`/api/v1/admin/blog_articles/${wrongArticleId}`)
         .set({Authorization: `Bearer ${accessToken}`})
         .end((err, res) => {
           res.should.have.status(500);
@@ -514,11 +514,11 @@ describe("Personal Portfolio API Test", () => {
   /**
    * Test To Logout And Blacklist Access & Refresh Token
    */
-  describe("DELETE /auth/logout", () => {
+  describe("DELETE /api/v1/auth/logout", () => {
     it("It Should Logout A User And Blacklist Access Token", (done) => {
       chai
         .request(server)
-        .delete("/auth/logout")
+        .delete("/api/v1/auth/logout")
         .set({Authorization: `Bearer ${accessToken}`})
         .set("Cookie", `accessToken=  ${accessToken}`)
         .end((err, res) => {
@@ -537,7 +537,7 @@ describe("Personal Portfolio API Test", () => {
     it("It Should Generate A 401 Error Code When User Tries To Logout Without Proper Authorization", (done) => {
       chai
         .request(server)
-        .delete("/auth/logout")
+        .delete("/api/v1/auth/logout")
         .end((err, res) => {
           res.should.have.status(401);
           done();

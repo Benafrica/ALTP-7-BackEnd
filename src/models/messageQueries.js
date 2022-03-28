@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 
 const messageQueriesSchema = new mongoose.Schema({
@@ -7,10 +6,6 @@ const messageQueriesSchema = new mongoose.Schema({
     required: true,
   },
   email: {
-    type: String,
-    required: true,
-  },
-  project: {
     type: String,
     required: true,
   },

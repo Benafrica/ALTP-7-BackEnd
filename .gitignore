@@ -10,3 +10,4 @@ auth.rest
 
 .nyc_output
 coverage
+build

@@ -53,7 +53,7 @@ import {verifyAccessToken} from "../helpers/jwt_helper";
 
 /**
  * @swagger
- * /auth/register:
+ * /v1/auth/register:
  *   post:
  *     summary: New User Registration
  *     tags: [Authentication & Authorization]
@@ -74,11 +74,11 @@ import {verifyAccessToken} from "../helpers/jwt_helper";
  *         description: Server Error
  */
 // Register Route
-authRouter.post("/register", authController.register);
+authRouter.post("/v1/auth/register", authController.register);
 
 /**
  * @swagger
- * /auth/login:
+ * /v1/auth/login:
  *   post:
  *     summary: User Login
  *     tags: [Authentication & Authorization]
@@ -99,11 +99,11 @@ authRouter.post("/register", authController.register);
  *         description: Server Error
  */
 // login Route
-authRouter.post("/login", authController.login);
+authRouter.post("/v1/auth/login", authController.login);
 
 /**
  * @swagger
- * /auth/logout:
+ * /v1/auth/logout:
  *   delete:
  *     summary: Logout
  *     tags: [Authentication & Authorization]
@@ -119,7 +119,7 @@ authRouter.post("/login", authController.login);
  */
 
 // Logout Route
-authRouter.delete("/logout", verifyAccessToken, authController.logout);
+authRouter.delete("/v1/auth/logout", verifyAccessToken, authController.logout);
 
 // Exporting login.js Route
 
